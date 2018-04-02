@@ -1,0 +1,8 @@
+[package]
+name = "Integer Sequences"
+version = "1.0.0"
+authors = ["subbed74 <birchcomp@gmail.com>"]
+
+[dependencies]
+num = "0.1"
+termion = "1"
