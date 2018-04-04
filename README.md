@@ -10,3 +10,6 @@ This program returns the number in various integer sequences located at the give
 **brady** *I1 I2 I3 ...* - Displays the given Brady number.  [A247698](https://oeis.org/A247698)\
 **reca** *I1 I2 I3 ...* - Displays the given Recamán's number.  [A005132](https://oeis.org/A005132)\
 **exit** - Exits the program.
+
+## Collatz Calculator
+This program takes a given range, then calculates the steps required for every positive integer to reach 1 under the Collatz Conjecture.  Things will be added over time for functionality and only outputting specific items.
