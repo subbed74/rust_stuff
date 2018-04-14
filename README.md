@@ -13,3 +13,6 @@ This program returns the number in various integer sequences located at the give
 
 ## Collatz Calculator
 This program takes a given range, then calculates the steps required for every positive integer to reach 1 under the Collatz Conjecture.  Things will be added over time for functionality and only outputting specific items.
+
+## Brainfust
+This is yet another brainfuck interpreter written in Rust.  Place the brainfuck code in a file named "main.bf", and run the program with the file in the same directory.  It takes input during runtime, but it will only take the first character from a string if more than one character is given.
