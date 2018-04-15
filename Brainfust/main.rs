@@ -12,7 +12,7 @@ fn getinput() -> String {
 
 //Defines the  Brainfuck interpreter
 struct Brainfuck {
-    memory: [u32; 500],
+    memory: [u32; 2000],
     pointer: usize,
     skip: u8,
     code_pointer: usize,
@@ -25,8 +25,18 @@ impl Brainfuck {
     fn inc_dec(&mut self, command: &str) {
         if self.skip == 0 {
             match command {
-                "inc" => self.memory[self.pointer] += 1, // +
-                "dec" => self.memory[self.pointer] -= 1, // -
+                "inc" => { // +
+                    match self.memory[self.pointer].checked_add(1) {
+                        Some(x) => self.memory[self.pointer] = x,
+                        None => self.memory[self.pointer] = 0
+                    }
+                },
+                "dec" => { // -
+                    match self.memory[self.pointer].checked_sub(1) {
+                        Some(x) => self.memory[self.pointer] = x,
+                        None => self.memory[self.pointer] = u32::max_value()
+                    }
+                },
                 _ => {}
             }
         }
@@ -36,8 +46,17 @@ impl Brainfuck {
     fn move_pointer(&mut self, direction: &str) {
         if self.skip == 0 {
             match direction {
-                "left" => self.pointer -= 1, // <
-                "right" => self.pointer += 1, // >
+                "left" => { // <
+                    match self.pointer.checked_sub(1) {
+                        Some(x) => self.pointer = x,
+                        None => self.pointer = 1999,
+                    }
+                },
+                "right" => { // >
+                    self.pointer += 1;
+
+                    if self.pointer >= 2000 { self.pointer = 0 }
+                },
                 _ => {}
             }
         }
@@ -95,7 +114,7 @@ fn main() {
 
     //Setup the Brainfuck interpreter
     let mut bf_info = Brainfuck {
-        memory: [0; 500],
+        memory: [0; 2000],
         pointer: 0,
         skip: 0,
         code_pointer: 0,
