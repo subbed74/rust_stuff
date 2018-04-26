@@ -1,6 +1,7 @@
 use std::io;
 use std::fs::File;
 use std::io::Read;
+use std::env;
 
 //Get input from the user
 fn getinput() -> String {
@@ -12,11 +13,12 @@ fn getinput() -> String {
 
 //Defines the  Brainfuck interpreter
 struct Brainfuck {
-    memory: [u32; 2000],
+    memory: [u32; 30000],
     pointer: usize,
     skip: u8,
     code_pointer: usize,
-    code_loop_begin: Vec<usize>
+    code_loop_begin: Vec<usize>,
+    input_vector: Vec<char>
 }
 
 //Interprets the Brainfuck commands
@@ -68,9 +70,15 @@ impl Brainfuck {
             match command {
                 "output" => print!("{}", (self.memory[self.pointer] as u8) as char), // .
                 "input" => { // ,
-                    let userinput: Vec<char> = getinput().chars()
-                        .collect();
-                    self.memory[self.pointer] = userinput[0] as u32;
+                    //If the input_vector is empty, store the entire input in it.
+                    if self.input_vector.is_empty() {
+                        self.input_vector = getinput().chars().collect();
+                        self.memory[self.pointer] = self.input_vector[0] as u32;
+                        self.input_vector.remove(0);
+                    } else {
+                        self.memory[self.pointer] = self.input_vector[0] as u32;
+                        self.input_vector.remove(0);
+                    }
                 },
                 _ => {}
             }
@@ -107,6 +115,11 @@ impl Brainfuck {
 }
 
 fn main() {
+    //Set the working director to the same directory as the executable
+    let mut exec_dir = env::current_exe().expect("Heck.");
+    exec_dir.pop();
+    env::set_current_dir(exec_dir).expect(".kceH");
+
     //Read Brainfuck code from main.bf
     let mut bf_code: Vec<u8> = Vec::new();
     let mut f = File::open("main.bf").expect("Failed to open file!");
@@ -114,11 +127,12 @@ fn main() {
 
     //Setup the Brainfuck interpreter
     let mut bf_info = Brainfuck {
-        memory: [0; 2000],
+        memory: [0; 30000],
         pointer: 0,
         skip: 0,
         code_pointer: 0,
-        code_loop_begin: Vec::new()
+        code_loop_begin: Vec::new(),
+        input_vector: Vec::new()
     };
 
     //Loop through the code and match every character to an operation
