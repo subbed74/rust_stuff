@@ -73,8 +73,10 @@ impl Brainfuck {
                     //If the input_vector is empty, store the entire input in it.
                     if self.input_vector.is_empty() {
                         self.input_vector = getinput().chars().collect();
-                        self.memory[self.pointer] = self.input_vector[0] as u32;
-                        self.input_vector.remove(0);
+                        if !self.input_vector.is_empty() {
+                            self.memory[self.pointer] = self.input_vector[0] as u32;
+                            self.input_vector.remove(0);
+                        }
                     } else {
                         self.memory[self.pointer] = self.input_vector[0] as u32;
                         self.input_vector.remove(0);
@@ -121,9 +123,18 @@ fn main() {
     env::set_current_dir(exec_dir).expect(".kceH");
 
     //Read Brainfuck code from main.bf
-    let mut bf_code: Vec<u8> = Vec::new();
+    let mut pre_bf_code: Vec<u8> = Vec::new();
     let mut f = File::open("main.bf").expect("Failed to open file!");
-    f.read_to_end(&mut bf_code).expect("Failed to read the file!");
+    f.read_to_end(&mut pre_bf_code).expect("Failed to read the file!");
+
+    //Iterate through BF code and create a vector containing only instructions
+    let mut bf_code: Vec<u8> = Vec::new();
+    for x in pre_bf_code.iter() {
+        match x {
+            43 | 45 | 62 | 60 | 46 | 44 | 91 | 93 => bf_code.push(*x),
+            _ => {}
+        }
+    }
 
     //Setup the Brainfuck interpreter
     let mut bf_info = Brainfuck {
