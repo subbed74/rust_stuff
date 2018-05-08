@@ -16,3 +16,6 @@ This is yet another brainfuck interpreter written in Rust.  Place the brainfuck 
 
 ## MUSIC THEORY - Twelve Tone Matrix Creator
 This is a simple little program that calculates a 12-tone matrix based off the prime row given.  Input is done by writing the 12 pitch classes as numbers 0-11, though it will print out "T" and "E" for 10 and 11 respectively.  That was done primarily for alignment purposes.
+
+## Tic-Tac-Toe
+Just a simple Tic-Tac-Toe that use mouse clicks for choosing spaces.  Utilizes the Termion crate to handle mouse events, clearing the screen, and moving the cursor for output.  Player 1 = X, Player 2 = O.

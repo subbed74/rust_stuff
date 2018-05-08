@@ -1,0 +1,7 @@
+[package]
+name = "tictactoe"
+version = "0.1.0"
+authors = ["subbed74 <birchcomp@gmail.com>"]
+
+[dependencies]
+termion = "*"
